@@ -16,8 +16,8 @@ const AttendanceV2 = () => {
   const { debouncedSearch, search: searchValue } = useDebouncedSearch();
   const { mutate: markAttendanceMutation } = useAttendance();
   const { mutate: manualAttendanceMutation } = useManualAttendance();
-  const { mutate: updateWorker } = useWorkerUpdate();
   const [manuallySaving, setManuallySaving] = useState(false);
+  const [isCreatingCompleted, setIsCreatingCompleted] = useState(false);
   const queryClient = useQueryClient();
   const [newPerson, setNewPerson] = useState({
     firstname: "",
@@ -29,15 +29,6 @@ const AttendanceV2 = () => {
     campus: "",
   });
 
-  const [activePerson, setActivePerson] = useState({
-    firstname: "",
-    lastname: "",
-    phonenumber: "",
-    team: "",
-    fullname: "",
-    workerrole: "",
-    campus: "",
-  });
   const title = "Group Alpha Leaders Meeting - April 2025";
 
   const handleSave = () => {
@@ -76,6 +67,7 @@ const AttendanceV2 = () => {
             campus: "",
             workerrole: "",
           });
+          setIsCreatingCompleted(true);
           setManuallySaving(false);
         },
         onError(error) {
@@ -89,6 +81,7 @@ const AttendanceV2 = () => {
             workerrole: "",
           });
           setManuallySaving(false);
+          setIsCreatingCompleted(true);
           throw error;
         },
       }
@@ -96,6 +89,7 @@ const AttendanceV2 = () => {
   };
 
   const resetCreate = () => {
+    setIsCreatingCompleted(true);
     setNewPerson({
       firstname: "",
       lastname: "",
@@ -106,6 +100,30 @@ const AttendanceV2 = () => {
       workerrole: "",
     });
   };
+
+  if (isCreatingCompleted) {
+    return (
+      <>
+        <header className="text-center mb-4 mt-1">
+          <img
+            src="/logo.jpg"
+            alt="Harvesters International Christian Center Logo"
+            className="w-32 h-32 mx-auto"
+          />
+          <h1 className="text-2xl font-bold mt-4">
+            Harvesters International Christian Centre, Gbagada campus
+          </h1>
+          <h2 className="text-2xl font-bold text-gray-500 mt-4">{title}</h2>
+        </header>
+        <div className="bg-green-100 text-green-800 px-4 py-3 rounded-2xl shadow-md w-fit mx-auto mt-10">
+          <p className="text-base font-medium">
+            Attendance marked. <span className="font-semibold">Refresh</span> to
+            mark again.
+          </p>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col md:items-center bg-gray-50 p-4">

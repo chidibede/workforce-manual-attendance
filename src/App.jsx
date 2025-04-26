@@ -22,11 +22,6 @@ const App = () => {
         <SkeletonTheme baseColor="#e5e5e5" highlightColor="#d6d4d4">
           <Routes>
             <Route index element={<AttendanceV2 />} />
-            <Route path="/admin/summary" element={<DashboardPage />} />
-            <Route
-              path="/admin/department/summary"
-              element={<DashboardPageByDepartment />}
-            />
           </Routes>
         </SkeletonTheme>
       </BrowserRouter>
